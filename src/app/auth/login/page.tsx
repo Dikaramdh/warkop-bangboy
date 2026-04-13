@@ -1,17 +1,16 @@
 import { LoginForm } from "@/components/loginForm";
 
-
 export default function Login() {
-    return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50">
-            <div className="max-w-md w-full space-y-8">
-                <div>
-                <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                    Masuk ke akun Anda
-                </h2>
-                </div>
-                <LoginForm />
-            </div>
+  return (
+    <div className="min-h-screen flex items-center justify-center px-4 py-12">
+      <div className="w-full max-w-md">
+        <div className="surface-panel p-8 md:p-10">
+          <p className="text-sm uppercase tracking-[0.2em] text-amber-700 mb-2">Admin Area</p>
+          <h2 className="text-4xl text-amber-950 mb-2">Masuk ke dashboard</h2>
+          <p className="text-amber-900/70 mb-6">Gunakan akun admin untuk mengelola menu dan pesanan.</p>
+          <LoginForm />
         </div>
-    )
+      </div>
+    </div>
+  );
 }

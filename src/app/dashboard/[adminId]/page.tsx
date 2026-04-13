@@ -1,50 +1,52 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { prisma } from '@/lib/prisma'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { prisma } from "@/lib/prisma";
 
 async function getDashboardStats() {
-  const [productCount, userCount] = await Promise.all([
+  const [productCount, userCount, orderCount] = await Promise.all([
     prisma.product.count(),
-    prisma.user.count()
-  ])
+    prisma.user.count(),
+    prisma.order.count(),
+  ]);
 
-  return { productCount, userCount }
+  return { productCount, userCount, orderCount };
 }
 
 export default async function DashboardPage() {
-  const { productCount, userCount } = await getDashboardStats()
+  const { productCount, userCount, orderCount } = await getDashboardStats();
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <h1 className="text-3xl sm:text-5xl text-amber-950 mb-2">Dashboard</h1>
+      <p className="text-amber-900/70 mb-8">Ringkasan performa operasional Warkop Bangboy.</p>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         <Card>
           <CardHeader>
             <CardTitle className="text-lg">Total Products</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-blue-600">{productCount}</div>
+            <div className="text-4xl font-bold text-amber-700">{productCount}</div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader>
             <CardTitle className="text-lg">Total Users</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-green-600">{userCount}</div>
+            <div className="text-4xl font-bold text-teal-700">{userCount}</div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Status</CardTitle>
+            <CardTitle className="text-lg">Total Orders</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-lg font-semibold text-gray-700">Active</div>
+            <div className="text-4xl font-bold text-orange-700">{orderCount}</div>
           </CardContent>
         </Card>
       </div>
     </div>
-  )
+  );
 }

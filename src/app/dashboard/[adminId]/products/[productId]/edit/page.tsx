@@ -1,33 +1,32 @@
-import { notFound } from 'next/navigation'
-import { prisma } from '@/lib/prisma'
-import ProductForm from '@/components/productForm'
+import { notFound } from "next/navigation";
+import { prisma } from "@/lib/prisma";
+import ProductForm from "@/components/productForm";
 
 async function getProduct(productId: string) {
   const product = await prisma.product.findUnique({
-    where: { id: productId }
-  })
-  
+    where: { id: productId },
+  });
+
   if (!product) {
-    notFound()
+    notFound();
   }
-  
-  return product
+
+  return product;
 }
 
-// Updated interface to match Next.js 15 requirements
 interface PageProps {
-  params: Promise<{ productId: string; adminId: string }>
+  params: Promise<{ productId: string; adminId: string }>;
 }
 
 export default async function EditProductPage({ params }: PageProps) {
-  // Await the params Promise
-  const { productId } = await params
-  const product = await getProduct(productId)
-  
+  const { productId } = await params;
+  const product = await getProduct(productId);
+
   return (
-    <div>
-      <h1 className="text-3xl font-bold mb-8">Edit Product</h1>
+    <div className="space-y-3">
+      <h1 className="text-3xl sm:text-5xl text-amber-950">Edit Product</h1>
+      <p className="text-amber-900/70">Perbarui detail produk agar tetap akurat dan menarik.</p>
       <ProductForm product={product} isEdit={true} />
     </div>
-  )
+  );
 }

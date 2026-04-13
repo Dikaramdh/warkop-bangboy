@@ -9,11 +9,10 @@ export const CartButton = () => {
   const { getTotalItems } = useCart();
   const [isHovered, setIsHovered] = useState(false);
   const cartCount = getTotalItems();
-  
+
   const router = useRouter();
 
   const handleCartClick = () => {
-    console.log("Keranjang diklik");
     router.push("/checkout");
   };
 
@@ -24,49 +23,35 @@ export const CartButton = () => {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         className={`
-          relative
-          w-16 h-16
-          bg-amber-600 hover:bg-amber-700
-          text-white
-          rounded-full
-          shadow-lg hover:shadow-xl
-          transition-all duration-300 ease-in-out
-          transform hover:scale-110
-          flex items-center justify-center
-          group
-          ${isHovered ? 'animate-pulse' : ''}
+          relative w-16 h-16 rounded-full
+          bg-gradient-to-br from-amber-600 to-amber-800 hover:from-amber-500 hover:to-amber-700
+          text-amber-50 shadow-[0_12px_25px_rgba(146,64,14,0.35)] hover:shadow-[0_16px_35px_rgba(146,64,14,0.45)]
+          transition-all duration-300 ease-in-out transform hover:scale-110
+          flex items-center justify-center group
+          ${isHovered ? "animate-pulse" : ""}
         `}
       >
-        {/* Cart Icon */}
-        <ShoppingCart 
-          size={24} 
-          className="transition-transform duration-200 group-hover:scale-110" 
-        />
-        
-        {/* Cart Count Badge */}
+        <ShoppingCart size={24} className="transition-transform duration-200 group-hover:scale-110" />
+
         {cartCount > 0 && (
-          <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center animate-bounce">
-            {cartCount > 99 ? '99+' : cartCount}
+          <div className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center animate-bounce">
+            {cartCount > 99 ? "99+" : cartCount}
           </div>
         )}
-        
-        {/* Ripple Effect */}
-        <div className="absolute inset-0 rounded-full bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-200"></div>
+
+        <div className="absolute inset-0 rounded-full bg-white opacity-0 group-hover:opacity-15 transition-opacity duration-200" />
       </button>
-      
-      {/* Tooltip */}
-      <div 
+
+      <div
         className={`
           absolute bottom-full right-0 mb-2
-          bg-gray-800 text-white text-sm
-          px-3 py-1 rounded-lg
-          whitespace-nowrap
+          bg-amber-950 text-amber-50 text-sm px-3 py-1.5 rounded-lg whitespace-nowrap
           transition-all duration-200
-          ${isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'}
+          ${isHovered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 pointer-events-none"}
         `}
       >
         Keranjang ({cartCount})
-        <div className="absolute top-full right-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800"></div>
+        <div className="absolute top-full right-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-amber-950" />
       </div>
     </div>
   );
