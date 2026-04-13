@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { verifyToken } from '@/lib/auth';
+import { verifyToken } from '@/lib/jwt';
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const token = request.cookies.get('auth-token')?.value;
   const { pathname } = request.nextUrl;
 
@@ -18,7 +18,7 @@ export function middleware(request: NextRequest) {
   const protectedRoutes = ['/dashboard'];
   const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route));
 
-  const tokenIsValid = token && verifyToken(token);
+  const tokenIsValid = token && await verifyToken(token);
 
   // 3. Kalau akses halaman dilindungi tanpa token → redirect ke login
   if (isProtectedRoute && !tokenIsValid) {

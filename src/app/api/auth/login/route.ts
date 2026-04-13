@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { findUserByEmail, verifyPassword, generateToken } from '@/lib/auth';
+import { findUserByEmail, verifyPassword } from '@/lib/auth';
+import { generateToken } from '@/lib/jwt';
 
 export async function POST(request: NextRequest) {
   try {
@@ -32,7 +33,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Generate token
-    const token = generateToken({ id: user.id, email: user.email, name: user.name });
+    const token = await generateToken({ id: user.id, email: user.email, name: user.name });
 
     // Set cookie
     const response = NextResponse.json({

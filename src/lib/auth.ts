@@ -1,9 +1,7 @@
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 import { prisma } from './prisma';
-
-const JWT_SECRET = process.env.JWT_SECRET || '';
+import { verifyToken } from './jwt';
 
 export interface User {
   id: string;
@@ -20,22 +18,7 @@ export async function verifyPassword(password: string, hashedPassword: string): 
   return bcrypt.compare(password, hashedPassword);
 }
 
-export function generateToken(user: User): string {
-  return jwt.sign(
-    { id: user.id, email: user.email, name: user.name },
-    JWT_SECRET,
-    { expiresIn: '7d' }
-  );
-}
 
-export function verifyToken(token: string): User | null {
-  try {
-    const decoded = jwt.verify(token, JWT_SECRET) as User;
-    return decoded;
-  } catch {
-    return null;
-  }
-}
 
 export async function createUser(email: string, password: string, name: string): Promise<User> {
   const hashedPassword = await hashPassword(password);
@@ -87,7 +70,7 @@ export async function getCurrentUser(): Promise<User | null> {
   
   if (!token) return null;
   
-  const decoded = verifyToken(token);
+  const decoded = await verifyToken(token);
   if (!decoded) return null;
 
   const user = await findUserById(decoded.id);
