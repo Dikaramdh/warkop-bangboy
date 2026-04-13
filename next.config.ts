@@ -3,19 +3,13 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
-    domains: ['images.unsplash.com', 'warkop-nusantara.vercel.app', 'res.cloudinary.com'],
+    domains: ['images.unsplash.com', 'res.cloudinary.com'],
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'warkop-nusantara.vercel.app',
-        pathname: '/uploads/**'
-      }
+       {
+      protocol: 'https',
+      hostname: 'example.com',
+    },
     ]
-  },
-  eslint: {
-    // Ignore ESLint errors during build for generated files
-    ignoreDuringBuilds: false,
-    dirs: ['src', 'pages', 'components', 'lib', 'utils'], // Only lint these directories
   },
   typescript: {
     // Ignore TypeScript errors during build (use with caution)
